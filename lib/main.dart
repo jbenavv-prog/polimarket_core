@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'screens/proveedores_screen.dart';
+import 'screens/provider_screen.dart';
 import 'screens/inventario_screen.dart';
 import 'screens/solicitar_producto_screen.dart';
 import 'screens/usuarios_screen.dart';
+import 'screens/customer_screen.dart';
+import 'screens/product_screen.dart';
 
 void main() => runApp(const PoliMarketApp());
 
@@ -16,10 +18,12 @@ class PoliMarketApp extends StatelessWidget {
       theme: ThemeData(primarySwatch: Colors.blue),
       home: const HomeScreen(),
       routes: {
-        '/proveedores': (_) => const ProveedoresScreen(),
+        '/proveedores': (_) => const ProviderScreen(),
         '/inventario': (_) => const InventarioScreen(),
         '/solicitar': (_) => const SolicitarProductoScreen(),
         '/usuarios': (_) => const UsuariosScreen(),
+        '/clientes': (_) => const CustomerScreen(),
+        '/productos': (_) => const ProductScreen(),
       },
     );
   }
@@ -59,6 +63,16 @@ class HomeScreen extends StatelessWidget {
               leading: const Icon(Icons.person),
               title: const Text('Listar Usuarios'),
               onTap: () => Navigator.pushNamed(context, '/usuarios'),
+            ),
+            ListTile(
+              leading: const Icon(Icons.person),
+              title: const Text('Listar Clientes'),
+              onTap: () => Navigator.pushNamed(context, '/clientes'),
+            ),
+            ListTile(
+              leading: const Icon(Icons.inventory),
+              title: const Text('Listar Stock'),
+              onTap: () => Navigator.pushNamed(context, '/productos'),
             ),
           ],
         ),
