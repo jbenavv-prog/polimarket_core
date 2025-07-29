@@ -17,10 +17,14 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
   final TextEditingController _quantityController = TextEditingController();
   bool _isLoading = true;
 
+  int _orderCount = 0;
+  bool _isLoadingOrderCount = true;
+
   @override
   void initState() {
     super.initState();
     _loadProducts();
+    _loadOrderCount();
   }
 
   Future<void> _loadProducts() async {
@@ -35,6 +39,21 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
       print('Error al cargar productos: $e');
       setState(() {
         _isLoading = false;
+      });
+    }
+  }
+
+  Future<void> _loadOrderCount() async {
+    try {
+      final count = await ApiServiceOrders.getOrderCount();
+      setState(() {
+        _orderCount = count;
+        _isLoadingOrderCount = false;
+      });
+    } catch (e) {
+      print('Error al obtener cantidad de órdenes: $e');
+      setState(() {
+        _isLoadingOrderCount = false;
       });
     }
   }
@@ -60,6 +79,7 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
           const SnackBar(content: Text('Orden creada con éxito')),
         );
         _quantityController.clear();
+        await _loadOrderCount(); // actualizar contador al crear orden
       }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -79,6 +99,25 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Texto con cantidad de órdenes
+            _isLoadingOrderCount
+                ? const CircularProgressIndicator()
+                : Padding(
+              padding: const EdgeInsets.only(bottom: 16),
+              child: RichText(
+                text: TextSpan(
+                  text: 'Actualmente hay ',
+                  style: const TextStyle(color: Colors.black, fontSize: 16),
+                  children: [
+                    TextSpan(
+                      text: '$_orderCount',
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    const TextSpan(text: ' órdenes registradas.'),
+                  ],
+                ),
+              ),
+            ),
             const Text('Producto'),
             DropdownButton<Product>(
               isExpanded: true,

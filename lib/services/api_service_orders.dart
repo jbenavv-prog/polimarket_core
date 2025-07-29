@@ -23,4 +23,22 @@ class ApiServiceOrders{
       throw Exception('Error al crear la orden');
     }
   }
+
+  static Future<int> getOrderCount() async {
+    final response = await http.get(
+      Uri.parse(url),
+      headers: {
+        'Accept': 'application/json',
+        'User-Agent': 'FlutterApp/1.0',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final List<dynamic> data = jsonDecode(response.body);
+      return data.length;
+    } else {
+      print('Error al obtener las órdenes: ${response.body}');
+      throw Exception('Error al obtener cantidad de órdenes');
+    }
+  }
 }
