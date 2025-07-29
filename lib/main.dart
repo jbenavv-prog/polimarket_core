@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:polimarket_core/screens/create_order_screen.dart';
 import 'screens/provider_screen.dart';
 import 'screens/product_screen.dart';
 
@@ -16,6 +17,7 @@ class PoliMarketApp extends StatelessWidget {
       routes: {
         '/proveedores': (_) => const ProviderScreen(),
         '/productos': (_) => const ProductScreen(),
+        '/crear-orden': (_) => const CreateOrderScreen(),
       },
     );
   }
@@ -45,6 +47,11 @@ class HomeScreen extends StatelessWidget {
               leading: const Icon(Icons.inventory),
               title: const Text('Listar Stock'),
               onTap: () => Navigator.pushNamed(context, '/productos'),
+            ),
+            ListTile(
+              leading: const Icon(Icons.add_card),
+              title: const Text('Crear Orden'),
+              onTap: () => Navigator.pushNamed(context, '/crear-orden'),
             ),
           ],
         ),
